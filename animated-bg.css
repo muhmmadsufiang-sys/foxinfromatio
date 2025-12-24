@@ -1,0 +1,140 @@
+/* Live Animated Background Styles */
+.animated-bg { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    z-index: -2; 
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.animated-bg canvas { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    display: block;
+}
+
+/* Floating particles */
+.particle { 
+    position: absolute;
+    background: rgba(59, 130, 246, 0.6);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(odd) { animation-delay: -3s; }
+.particle:nth-child(3n) { background: rgba(139, 92, 246, 0.5); }
+.particle:nth-child(4n) { background: rgba(16, 185, 129, 0.4); }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+/* Geometric shapes */
+.geo-shape {
+    position: absolute;
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    animation: rotate 20s linear infinite;
+}
+
+.geo-shape.triangle {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 43px solid rgba(59, 130, 246, 0.2);
+    border-radius: 0;
+}
+
+.geo-shape.square {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.geo-shape.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Gradient orbs */
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+.orb1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+    top: 10%;
+    left: 10%;
+}
+
+.orb2 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+    top: 60%;
+    right: 15%;
+    animation-delay: -2s;
+}
+
+.orb3 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+    bottom: 20%;
+    left: 20%;
+    animation-delay: -1s;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gradient-orb {
+        filter: blur(20px);
+    }
+    
+    .orb1, .orb2, .orb3 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .particle {
+        animation-duration: 4s;
+    }
+    
+    .geo-shape {
+        animation-duration: 15s;
+    }
+}
+
+@media (max-width: 480px) {
+    .gradient-orb {
+        filter: blur(15px);
+    }
+    
+    .orb1, .orb2, .orb3 {
+        width: 100px;
+        height: 100px;
+    }
+}

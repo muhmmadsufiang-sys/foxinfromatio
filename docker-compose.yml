@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # TURN Server for Global Connectivity
+  coturn:
+    image: coturn/coturn:latest
+    container_name: turn-server-global
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TURN_USERNAME=sufian
+      - TURN_PASSWORD=sufian123
+      - TURN_REALM=teachsufian.com
+      - TURN_EXTERNAL_IP=${EXTERNAL_IP}
+    command: >
+      turnserver
+      --listening-port=3478
+      --tls-listening-port=5349
+      --listening-ip=0.0.0.0
+      --relay-ip=0.0.0.0
+      --external-ip=${EXTERNAL_IP}
+      --lt-cred-mech
+      --user=sufian:sufian123
+      --realm=teachsufian.com
+      --server-name=coturn.teachsufian.com
+      --fingerprint
+      --no-multicast-peers
+      --no-cli
+      --no-tlsv1
+      --no-tlsv1_1
+      --total-quota=0
+      --bps-capacity=0
+      --stale-nonce=600
+      --max-allocate-lifetime=3600
+      --channel-lifetime=600
+      --permission-lifetime=300
+      --realm=teachsufian.com
+      --server-name=coturn.teachsufian.com
+      --log-file=/var/log/turnserver.log
+      --verbose
+      --mobility
+      --no-loopback-peers
+      --no-multicast-peers
+    volumes:
+      - ./logs:/var/log
+
+  # WebSocket Signaling Server
+  signaling:
+    build: .
+    container_name: signaling-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: node server.js
